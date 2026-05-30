@@ -10,21 +10,27 @@ import chatRoomRoutes from "./routes/chatRoom.js";
 import chatMessageRoutes from "./routes/chatMessage.js";
 import userRoutes from "./routes/user.js";
 
-const app = express();
-
 dotenv.config();
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(VerifyToken);
+// Public health check — no auth required (used by Render to verify the service is alive)
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "Wavr API is running" });
+});
 
-const PORT = process.env.PORT || 8080;
+// All routes below this line require a valid Firebase token
+app.use(VerifyToken);
 
 app.use("/api/room", chatRoomRoutes);
 app.use("/api/message", chatMessageRoutes);
 app.use("/api/user", userRoutes);
+
+const PORT = process.env.PORT || 8080;
 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
