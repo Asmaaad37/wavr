@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-slate-100;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-gray-300 dark:bg-slate-600 rounded-full; }
+}
+
+.emoji-picker-react {
+  @apply !bg-white !border-gray-200 dark:!bg-slate-800 dark:!border-slate-700 !shadow-2xl;
+}
+.emoji-picker-react .emoji-search {
+  @apply !bg-gray-100 !text-gray-900 !border-gray-200 dark:!bg-slate-700 dark:!text-white dark:!border-slate-600;
+}
+.emoji-picker-react .emoji-categories { @apply !bg-white dark:!bg-slate-800; }
+.emoji-picker-react .emoji-scroll-wrapper::-webkit-scrollbar { width: 4px; }
+.emoji-picker-react .emoji-categories button { @apply contrast-0; }
+.emoji-picker-react .emoji-scroll-wrapper .emoji-group::before {
+  @apply !bg-white !text-gray-600 dark:!bg-slate-800 dark:!text-slate-300;
+}
