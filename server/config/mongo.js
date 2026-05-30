@@ -5,11 +5,10 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 
+mongoose.set("strictQuery", true);
+
 mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGO_URI)
   .catch((error) => {
     console.log("MongoDB initial connection failed:", error.message);
   });
