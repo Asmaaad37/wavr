@@ -22,6 +22,16 @@ export default function ChatLayout() {
   const socket = useRef();
   const { currentUser } = useAuth();
 
+  // Keep the backend awake on Render's free tier by pinging the health
+  // check every 4 minutes while the user has the app open.
+  useEffect(() => {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
+    const ping = () => fetch(`${backendUrl}/`).catch(() => {});
+    ping();
+    const interval = setInterval(ping, 4 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const getSocket = async () => {
       const res = await initiateSocketConnection();
