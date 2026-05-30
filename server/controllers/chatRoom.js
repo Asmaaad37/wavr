@@ -1,17 +1,23 @@
 import ChatRoom from "../models/ChatRoom.js";
 
 export const createChatRoom = async (req, res) => {
-  const newChatRoom = new ChatRoom({
-    members: [req.body.senderId, req.body.receiverId],
-  });
+  const { senderId, receiverId } = req.body;
 
   try {
+    // Return existing room if one already exists between these two users
+    const existing = await ChatRoom.findOne({
+      members: { $all: [senderId, receiverId] },
+    });
+
+    if (existing) {
+      return res.status(200).json(existing);
+    }
+
+    const newChatRoom = new ChatRoom({ members: [senderId, receiverId] });
     await newChatRoom.save();
     res.status(201).json(newChatRoom);
   } catch (error) {
-    res.status(409).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -22,9 +28,7 @@ export const getChatRoomOfUser = async (req, res) => {
     });
     res.status(200).json(chatRoom);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -35,8 +39,6 @@ export const getChatRoomOfUsers = async (req, res) => {
     });
     res.status(200).json(chatRoom);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
