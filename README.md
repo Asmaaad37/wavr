@@ -12,6 +12,7 @@ A real-time messaging application built with a full-stack MERN architecture, Fir
 - [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [Local Setup](#local-setup)
+- [Available Scripts](#available-scripts)
 - [Environment Variables](#environment-variables)
 - [API Reference](#api-reference)
 - [Deployment](#deployment)
@@ -143,7 +144,7 @@ Wavr/
 │           ├── GenerateAvatar.js  # DiceBear API v9 avatar URL generator
 │           └── WithPrivateRoute.js
 ├── .env.example                   # Server environment variable template
-├── package.json                   # Server dependencies and start script
+├── package.json                   # Server dependencies and npm scripts
 └── README.md
 ```
 
@@ -154,7 +155,7 @@ Wavr/
 - **Node.js** v18 or higher
 - **MongoDB** running locally (or a MongoDB Atlas URI)
 - **Firebase project** with Email/Password authentication enabled
-- **nodemon** installed globally: `npm install -g nodemon`
+- **nodemon** installed globally for local development: `npm install -g nodemon`
 
 ---
 
@@ -217,8 +218,8 @@ Start-Service -Name MongoDB
 Open **two terminals**:
 
 ```bash
-# Terminal 1 — backend (from root)
-npm start
+# Terminal 1 — backend (from root, with auto-restart)
+npm run dev
 # Expected: "Server listening on port 8080" + "Mongo has connected successfully"
 
 # Terminal 2 — frontend (from frontend/)
@@ -227,6 +228,27 @@ npm start
 ```
 
 Open **http://localhost:3000**
+
+---
+
+## Available Scripts
+
+### Backend (run from root `Wavr/`)
+
+| Script | Command | Description |
+|---|---|---|
+| `npm run dev` | `nodemon server/index.js` | Start server locally with auto-restart on file changes |
+| `npm start` | `node server/index.js` | Start server for production (no auto-restart) |
+
+> `npm run dev` is for local development only. `npm start` is what production hosts (e.g. Render) use — it runs `node` directly without nodemon, which is not available on remote servers unless explicitly installed.
+
+### Frontend (run from `Wavr/frontend/`)
+
+| Script | Command | Description |
+|---|---|---|
+| `npm start` | `react-scripts start` | Start React dev server with hot reloading |
+| `npm run build` | `react-scripts build` | Build optimised production bundle to `build/` |
+| `npm test` | `react-scripts test` | Run tests with Jest + React Testing Library |
 
 ---
 
@@ -308,7 +330,7 @@ Wavr can be deployed entirely on free tiers using:
 ### Key steps
 
 1. **MongoDB Atlas** — create a free M0 cluster, whitelist all IPs (`0.0.0.0/0`), get the connection string
-2. **Render** — deploy from GitHub, set root directory to `Wavr/`, start command `npm start`, add all server env vars including `FIREBASE_SERVICE_ACCOUNT` (paste the full contents of `serviceAccountKey.json` as a single JSON string)
+2. **Render** — deploy from GitHub, set root directory to `Wavr/`, build command `npm install`, start command `npm start` (runs `node server/index.js` directly — nodemon is not used in production), add all server env vars including `FIREBASE_SERVICE_ACCOUNT`
 3. **Vercel** — deploy from GitHub, set root directory to `Wavr/frontend`, add all `REACT_APP_*` env vars plus `REACT_APP_BACKEND_URL` pointing to your Render URL
 4. **Firebase Console** — add your Vercel domain to Authentication → Settings → Authorized domains
 5. **Render** — update `CLIENT_URL` to your Vercel URL and redeploy
