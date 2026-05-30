@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <>
-      <nav className="bg-white border-b border-gray-200 dark:bg-slate-900 dark:border-slate-700/50 px-6 py-3">
+      <nav className="bg-white border-b border-gray-200 dark:bg-slate-900 dark:border-slate-700/50 px-4 sm:px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">

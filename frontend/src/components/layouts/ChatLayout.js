@@ -19,6 +19,7 @@ export default function ChatLayout() {
   const [onlineUsersId, setOnlineUsersId] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isContact, setIsContact] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   const socket = useRef();
   const { currentUser } = useAuth();
 
@@ -70,7 +71,10 @@ export default function ChatLayout() {
     else setFilteredRooms([]);
   }, [isContact]);
 
-  const handleChatChange = (chat) => setCurrentChat(chat);
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat);
+    setShowChat(true);
+  };
 
   const handleSearch = (newSearchQuery) => {
     setSearchQuery(newSearchQuery);
@@ -93,8 +97,8 @@ export default function ChatLayout() {
 
   return (
     <div className="h-[calc(100vh-57px)] flex bg-gray-50 dark:bg-slate-900">
-      {/* Sidebar */}
-      <div className="w-80 flex-shrink-0 bg-white border-r border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 flex flex-col">
+      {/* Sidebar — full-width on mobile, fixed 320px on md+ */}
+      <div className={`flex-col flex-shrink-0 bg-white border-r border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 w-full md:w-80 ${showChat ? "hidden md:flex" : "flex"}`}>
         <SearchUsers handleSearch={handleSearch} />
         <AllUsers
           users={searchQuery !== "" ? filteredUsers : users}
@@ -106,14 +110,15 @@ export default function ChatLayout() {
         />
       </div>
 
-      {/* Chat area */}
-      <div className="flex-1 flex flex-col">
+      {/* Chat area — hidden on mobile until a chat is selected */}
+      <div className={`flex-1 flex-col ${showChat ? "flex" : "hidden md:flex"}`}>
         {currentChat ? (
           <ChatRoom
             currentChat={currentChat}
             currentUser={currentUser}
             socket={socket}
             onlineUsersId={onlineUsersId}
+            onBack={() => setShowChat(false)}
           />
         ) : (
           <Welcome />

@@ -26,12 +26,12 @@ export default function ChatForm({ handleFormSubmit }) {
   return (
     <div ref={scrollRef}>
       {showEmojiPicker && (
-        <div className="px-4 pb-2">
+        <div className="px-3 pb-2 overflow-x-auto">
           <Picker onEmojiClick={handleEmojiClick} />
         </div>
       )}
-      <form onSubmit={handleSubmit} className="px-4 py-3 bg-white border-t border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50">
-        <div className="flex items-center gap-3 bg-gray-100 border border-gray-200 rounded-2xl px-4 py-2 focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-400 dark:bg-slate-700/50 dark:border-slate-600/30 dark:focus-within:border-indigo-500/30 transition-all duration-200">
+      <form onSubmit={handleSubmit} className="px-3 py-3 bg-white border-t border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50">
+        <div className="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-2xl px-3 py-2 focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-400 dark:bg-slate-700/50 dark:border-slate-600/30 dark:focus-within:border-indigo-500/30 transition-all duration-200">
           <button
             type="button"
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
@@ -43,7 +43,7 @@ export default function ChatForm({ handleFormSubmit }) {
           <input
             type="text"
             placeholder="Type a message..."
-            className="flex-1 bg-transparent text-gray-900 placeholder-gray-400 dark:text-white dark:placeholder-slate-500 text-sm focus:outline-none"
+            className="flex-1 min-w-0 bg-transparent text-gray-900 placeholder-gray-400 dark:text-white dark:placeholder-slate-500 text-sm focus:outline-none"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />

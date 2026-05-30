@@ -27,7 +27,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/30 mb-4">
@@ -39,7 +39,7 @@ export default function Login() {
           <p className="text-gray-500 dark:text-slate-400">Sign in to continue chatting</p>
         </div>
 
-        <div className="bg-white border border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 rounded-2xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 rounded-2xl p-6 sm:p-8 shadow-xl">
           <form onSubmit={handleFormSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Email</label>

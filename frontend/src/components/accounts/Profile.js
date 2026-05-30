@@ -33,16 +33,16 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Pick your avatar</h1>
           <p className="text-gray-500 dark:text-slate-400">Choose an avatar and set your display name</p>
         </div>
 
-        <div className="bg-white border border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 rounded-2xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 rounded-2xl p-6 sm:p-8 shadow-xl">
           <form onSubmit={handleFormSubmit} className="space-y-6">
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
               {avatars.map((avatar, index) => (
                 <button
                   key={index}
