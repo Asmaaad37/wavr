@@ -1,7 +1,34 @@
 import { useState, useEffect } from "react";
-import { createChatRoom } from "../../services/ChatService";
-import Contact from "./Contact";
+import { createChatRoom, getUser } from "../../services/ChatService";
 import UserLayout from "../layouts/UserLayout";
+
+function ChatRoomItem({ chatRoom, isSelected, currentUser, onlineUsersId, onClick }) {
+  const [contact, setContact] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const contactId = chatRoom.members?.find((m) => m !== currentUser.uid);
+    getUser(contactId).then((res) => {
+      setContact(res || null);
+      setLoaded(true);
+    });
+  }, [chatRoom, currentUser]);
+
+  if (!loaded || !contact) return null;
+
+  return (
+    <div
+      onClick={onClick}
+      className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-all duration-150 rounded-xl mx-2 mb-0.5 ${
+        isSelected
+          ? "bg-indigo-50 border border-indigo-200 dark:bg-indigo-500/20 dark:border-indigo-500/30"
+          : "hover:bg-gray-100 dark:hover:bg-slate-700/50"
+      }`}
+    >
+      <UserLayout user={contact} onlineUsersId={onlineUsersId} />
+    </div>
+  );
+}
 
 export default function AllUsers({
   users, chatRooms, setChatRooms, onlineUsersId, currentUser, changeChat,
@@ -55,17 +82,14 @@ export default function AllUsers({
             Messages
           </p>
           {(chatRooms || []).filter(Boolean).map((chatRoom, index) => (
-            <div
-              key={index}
+            <ChatRoomItem
+              key={chatRoom._id || index}
+              chatRoom={chatRoom}
+              isSelected={index === selectedChat}
+              currentUser={currentUser}
+              onlineUsersId={onlineUsersId}
               onClick={() => changeCurrentChat(index, chatRoom)}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-all duration-150 rounded-xl mx-2 mb-0.5 ${
-                index === selectedChat
-                  ? "bg-indigo-50 border border-indigo-200 dark:bg-indigo-500/20 dark:border-indigo-500/30"
-                  : "hover:bg-gray-100 dark:hover:bg-slate-700/50"
-              }`}
-            >
-              <Contact chatRoom={chatRoom} onlineUsersId={onlineUsersId} currentUser={currentUser} />
-            </div>
+            />
           ))}
         </>
       )}
