@@ -9,11 +9,14 @@ export default function AllUsers({
   const [selectedChat, setSelectedChat] = useState();
   const [nonContacts, setNonContacts] = useState([]);
   const [contactIds, setContactIds] = useState([]);
+  const [creatingChat, setCreatingChat] = useState(false);
 
   useEffect(() => {
-    const ids = (chatRooms || []).map((chatRoom) =>
-      chatRoom.members.find((member) => member !== currentUser.uid)
-    );
+    const ids = (chatRooms || [])
+      .filter(Boolean)
+      .map((chatRoom) =>
+        chatRoom.members.find((member) => member !== currentUser.uid)
+      );
     setContactIds(ids);
   }, [chatRooms, currentUser.uid]);
 
@@ -31,20 +34,27 @@ export default function AllUsers({
   };
 
   const handleNewChatRoom = async (user) => {
-    const members = { senderId: currentUser.uid, receiverId: user.uid };
-    const res = await createChatRoom(members);
-    setChatRooms((prev) => [...prev, res]);
-    changeChat(res);
+    if (creatingChat) return;
+    setCreatingChat(true);
+    try {
+      const members = { senderId: currentUser.uid, receiverId: user.uid };
+      const res = await createChatRoom(members);
+      if (!res) return;
+      setChatRooms((prev) => [...prev.filter(Boolean), res]);
+      changeChat(res);
+    } finally {
+      setCreatingChat(false);
+    }
   };
 
   return (
     <div className="overflow-y-auto flex-1">
-      {(chatRooms || []).length > 0 && (
+      {(chatRooms || []).filter(Boolean).length > 0 && (
         <>
           <p className="px-4 pt-3 pb-1 text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider">
             Messages
           </p>
-          {(chatRooms || []).map((chatRoom, index) => (
+          {(chatRooms || []).filter(Boolean).map((chatRoom, index) => (
             <div
               key={index}
               onClick={() => changeCurrentChat(index, chatRoom)}
@@ -69,7 +79,11 @@ export default function AllUsers({
             <div
               key={index}
               onClick={() => handleNewChatRoom(nonContact)}
-              className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700/50 transition-all duration-150 rounded-xl mx-2 mb-0.5"
+              className={`flex items-center gap-3 px-4 py-3 transition-all duration-150 rounded-xl mx-2 mb-0.5 ${
+                creatingChat
+                  ? "opacity-50 cursor-wait"
+                  : "cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700/50"
+              }`}
             >
               <UserLayout user={nonContact} onlineUsersId={onlineUsersId} />
             </div>
