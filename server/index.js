@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
 
   socket.on("addUser", (userId) => {
     onlineUsers.set(userId, socket.id);
-    socket.emit("getUsers", Array.from(onlineUsers));
+    io.emit("getUsers", Array.from(onlineUsers));
   });
 
   socket.on("sendMessage", ({ senderId, receiverId, message }) => {
@@ -79,6 +79,6 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     onlineUsers.delete(getKey(onlineUsers, socket.id));
-    socket.emit("getUsers", Array.from(onlineUsers));
+    io.emit("getUsers", Array.from(onlineUsers));
   });
 });

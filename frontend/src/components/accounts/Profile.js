@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChevronLeftIcon } from "@heroicons/react/solid";
 import { useAuth } from "../../contexts/AuthContext";
 import { generateAvatar } from "../../utils/GenerateAvatar";
 
@@ -42,6 +43,15 @@ export default function Profile() {
 
         <div className="bg-white border border-gray-200 dark:bg-slate-800/50 dark:border-slate-700/50 rounded-2xl p-6 sm:p-8 shadow-xl">
           <form onSubmit={handleFormSubmit} className="space-y-6">
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="md:hidden flex items-center gap-1 text-sm text-gray-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+            >
+              <ChevronLeftIcon className="h-4 w-4" />
+              Back
+            </button>
+
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
               {avatars.map((avatar, index) => (
                 <button

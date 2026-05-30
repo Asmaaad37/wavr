@@ -43,7 +43,7 @@ export default function ChatForm({ handleFormSubmit }) {
           <input
             type="text"
             placeholder="Type a message..."
-            className="flex-1 min-w-0 bg-transparent text-gray-900 placeholder-gray-400 dark:text-white dark:placeholder-slate-500 text-sm focus:outline-none"
+            className="flex-1 min-w-0 bg-transparent text-gray-900 placeholder-gray-400 dark:text-white dark:placeholder-slate-500 text-base focus:outline-none"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />

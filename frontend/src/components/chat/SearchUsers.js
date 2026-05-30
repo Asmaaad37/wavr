@@ -8,7 +8,7 @@ export default function SearchUsers({ handleSearch }) {
         <input
           type="search"
           placeholder="Search conversations..."
-          className="w-full pl-9 pr-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-slate-700/50 dark:border-slate-600/30 dark:text-white dark:placeholder-slate-500 transition-all duration-200"
+          className="w-full pl-9 pr-4 py-2.5 bg-gray-100 border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-slate-700/50 dark:border-slate-600/30 dark:text-white dark:placeholder-slate-500 transition-all duration-200"
           onChange={(e) => handleSearch(e.target.value)}
         />
       </div>
